@@ -1,17 +1,15 @@
 package ru.MrCrash.RtuItLabExample.Moduls;
 
-import java.util.Date;
-
 public class Purchase {
     private int idPerson;
-    private int idProduct;
+    private int idPurchase;
     private String name;
     private double cost;
-    private Date purchaseDate;
+    private String purchaseDate;
 
-    public Purchase(int idPerson, int idProduct, String name, double cost, Date purchaseDate) {
+    public Purchase(int idPerson, int idProduct, String name, double cost, String purchaseDate) {
         this.idPerson = idPerson;
-        this.idProduct = idProduct;
+        this.idPurchase = idProduct;
         this.name = name;
         this.cost = cost;
         this.purchaseDate = purchaseDate;
@@ -25,12 +23,12 @@ public class Purchase {
         this.idPerson = idPerson;
     }
 
-    public int getIdProduct() {
-        return idProduct;
+    public int getIdPurchase() {
+        return idPurchase;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setIdPurchase(int idPurchase) {
+        this.idPurchase = idPurchase;
     }
 
     public String getName() {
@@ -49,11 +47,11 @@ public class Purchase {
         this.cost = cost;
     }
 
-    public Date getPurchaseDate() {
+    public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(Date purchaseDate) {
+    public void setPurchaseDate(String purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
