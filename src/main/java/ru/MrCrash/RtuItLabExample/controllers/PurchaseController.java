@@ -18,36 +18,35 @@ public class PurchaseController {
     }
 
     @PostMapping()
-    public void createNewPurchase(@ModelAttribute("purchase") Purchase purchase){
+    public void createNewPurchase(@ModelAttribute("purchase") Purchase purchase) {
         purchaseDAO.createNewPurchase(purchase);
     }
 
     @GetMapping()
-    public String readAllPurchases(){
+    public String readAllPurchases() {
         return gson.toJson(purchaseDAO.getAllPurchases());
     }
 
     @GetMapping("/{idPerson}")
-    public String readPurchasesFromId(@PathVariable int idPerson){
+    public String readPurchasesFromId(@PathVariable int idPerson) {
         return gson.toJson(purchaseDAO.getPurchasesFromId(idPerson));
     }
 
-    @PatchMapping("/{idPerson}")
-    public void updatePurchase(@PathVariable int idPerson,
+    @PatchMapping("/{id}")
+    public void updatePurchase(@PathVariable("id") int idPerson,
                                @RequestParam("idPurchaseToUpdate") int idPurchaseToUpdate,
-                               @ModelAttribute("purchase") Purchase purchase){
+                               @ModelAttribute("purchase") Purchase purchase) {
         purchaseDAO.updatePurchase(idPerson, idPurchaseToUpdate, purchase);
-
     }
 
     @DeleteMapping("/{idPerson}")
-    public void deletePerson(@PathVariable int idPerson){
+    public void deletePerson(@PathVariable int idPerson) {
         purchaseDAO.deletePerson(idPerson);
     }
 
     @DeleteMapping("/{idPerson}/{idPurchase}")
     public void deletePurchase(@PathVariable int idPerson,
-                               @PathVariable int idPurchase){
+                               @PathVariable int idPurchase) {
         purchaseDAO.deletePurchase(idPerson, idPurchase);
     }
 }

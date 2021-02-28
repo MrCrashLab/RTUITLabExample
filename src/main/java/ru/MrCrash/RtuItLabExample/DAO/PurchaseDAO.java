@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.MrCrash.RtuItLabExample.Moduls.Purchase;
 
+import javax.annotation.PostConstruct;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,50 +16,135 @@ public class PurchaseDAO {
     private final String URL = null;
     @Value("${spring.datasource.password}")
     private final String PASSWORD = null;
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.username}")
     private final String USERNAME = null;
-    List<Purchase> purchases = new ArrayList<>();
 
-    {
-        purchases.add(new Purchase(1,21,"Tea",1345,"12/08/1975"));
-        purchases.add(new Purchase(1,651,"Coffe",23345,"12/08/1975"));
-        purchases.add(new Purchase(2,761,"Cookies",15,"12/08/1975"));
-        purchases.add(new Purchase(3,861,"Cola",13,"12/08/1975"));
+    private static Connection connection;
+
+    @PostConstruct
+    public void initMethod() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public List<Purchase> getAllPurchases(){
+    public List<Purchase> getAllPurchases() {
+        List<Purchase> purchases = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM purchases");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Purchase purchase = new Purchase(resultSet.getInt("id_person"),
+                        resultSet.getInt("id_purchase"),
+                        resultSet.getString("name"),
+                        resultSet.getDouble("cost"),
+                        String.valueOf(resultSet.getDate("date")));
+                purchases.add(purchase);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return purchases;
     }
 
-    public List<Purchase> getPurchasesFromId(int id){
-        return purchases.stream().filter(purchase -> purchase.getIdPerson() == id).collect(Collectors.toList());
+    public List<Purchase> getPurchasesFromId(int id) {
+        List<Purchase> purchases = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT * FROM purchases WHERE id_person=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Purchase purchase = new Purchase(resultSet.getInt("id_person"),
+                        resultSet.getInt("id_purchase"),
+                        resultSet.getString("name"),
+                        resultSet.getDouble("cost"),
+                        String.valueOf(resultSet.getDate("date")));
+                purchases.add(purchase);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return purchases;
     }
 
-    public void createNewPurchase(Purchase purchase){
-        purchases.add(purchase);
+    public void createNewPurchase(Purchase purchase) {
+        try {
+            int uniqueId = purchase.getIdPurchase();
+            List<Integer> idList = getPurchasesFromId(purchase.getIdPerson())
+                    .stream()
+                    .map(purchase1 -> purchase1.getIdPurchase())
+                    .collect(Collectors.toList());
+            if (idList.indexOf(uniqueId) != -1) {
+                uniqueId = idList.stream().max(Integer::compare).get();
+                uniqueId++;
+            }
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO purchases VALUES(?,?,?,?,?)");
+            statement.setInt(1, purchase.getIdPerson());
+            statement.setInt(2, uniqueId);
+            statement.setString(3, purchase.getName());
+            statement.setDouble(4, purchase.getCost());
+            statement.setDate(5, java.sql.Date.valueOf(purchase.getPurchaseDate()));
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public void updatePurchase(int idPerson, int idPurchase, Purchase purchase){
-        Purchase purchaseToBeUpdate = getPurchasesFromId(idPerson)
-                .stream()
-                .filter(purchase1 -> purchase1.getIdPurchase()==idPurchase)
-                .findAny()
-                .orElse(null);
-        purchaseToBeUpdate.setIdPurchase(purchase.getIdPurchase());
-        purchaseToBeUpdate.setName(purchase.getName());
-        purchaseToBeUpdate.setCost(purchase.getCost());
-        purchaseToBeUpdate.setPurchaseDate(purchase.getPurchaseDate());
+    public void updatePurchase(int idPerson, int idPurchaseToBeUpdated, Purchase purchase) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement
+                            ("UPDATE purchases SET " +
+                                    "name=?, " +
+                                    "cost=?, " +
+                                    "date=? " +
+                                    "WHERE id_person=? AND " +
+                                    "id_purchase=?");
+            statement.setString(1, purchase.getName());
+            statement.setDouble(2, purchase.getCost());
+            statement.setDate(3, java.sql.Date.valueOf(purchase.getPurchaseDate()));
+            statement.setInt(4, idPerson);
+            statement.setInt(5, idPurchaseToBeUpdated);
+            System.out.println("hello");
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public void deletePurchase(int idPerson,int idPurchase){
-        purchases.remove(purchases.indexOf(getPurchasesFromId(idPerson)
-                .stream()
-                .filter(purchase1 -> purchase1.getIdPurchase()==idPurchase)
-                .findAny()
-                .orElse(null)));
+    public void deletePurchase(int idPerson, int idPurchase) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("DELETE FROM " +
+                            "purchases WHERE " +
+                            "id_person=? AND " +
+                            "id_purchase=?");
+            statement.setInt(1, idPerson);
+            statement.setInt(2, idPurchase);
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public void deletePerson(int idPerson){
-        getPurchasesFromId(idPerson).forEach(purchases::remove);
+    public void deletePerson(int idPerson) {
+        try {
+            PreparedStatement statement =
+                    connection.prepareStatement("DELETE FROM " +
+                            "purchases WHERE " +
+                            "id_person=?");
+            statement.setInt(1, idPerson);
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
