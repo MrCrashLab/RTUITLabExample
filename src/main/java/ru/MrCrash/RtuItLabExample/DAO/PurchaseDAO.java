@@ -57,4 +57,7 @@ public class PurchaseDAO {
                 .orElse(null)));
     }
 
+    public void deletePerson(int idPerson){
+        getPurchasesFromId(idPerson).forEach(purchases::remove);
+    }
 }

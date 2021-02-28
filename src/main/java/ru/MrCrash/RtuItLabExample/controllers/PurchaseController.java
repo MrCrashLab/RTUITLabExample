@@ -41,8 +41,13 @@ public class PurchaseController {
     }
 
     @DeleteMapping("/{idPerson}")
+    public void deletePerson(@PathVariable int idPerson){
+        purchaseDAO.deletePerson(idPerson);
+    }
+
+    @DeleteMapping("/{idPerson}/{idPurchase}")
     public void deletePurchase(@PathVariable int idPerson,
-                               @RequestParam("idPurchase") int idPurchase){
+                               @PathVariable int idPurchase){
         purchaseDAO.deletePurchase(idPerson, idPurchase);
     }
 }
