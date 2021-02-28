@@ -32,8 +32,8 @@ public class PurchaseController {
         return gson.toJson(purchaseDAO.getPurchasesFromId(idPerson));
     }
 
-    @PatchMapping("/{id}")
-    public void updatePurchase(@PathVariable("id") int idPerson,
+    @PatchMapping("/{idPerson}")
+    public void updatePurchase(@PathVariable int idPerson,
                                @RequestParam("idPurchaseToUpdate") int idPurchaseToUpdate,
                                @ModelAttribute("purchase") Purchase purchase) {
         purchaseDAO.updatePurchase(idPerson, idPurchaseToUpdate, purchase);
