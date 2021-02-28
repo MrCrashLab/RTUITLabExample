@@ -1,10 +1,10 @@
-package ru.MrCrash.RtuItLabExample.controllers;
+package ru.MrCrash.RtuItLabExample.FirstLevel.Controllers;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.MrCrash.RtuItLabExample.DAO.PurchaseDAO;
-import ru.MrCrash.RtuItLabExample.Moduls.Purchase;
+import ru.MrCrash.RtuItLabExample.FirstLevel.DAO.PurchaseDAO;
+import ru.MrCrash.RtuItLabExample.FirstLevel.Models.Purchase;
 
 @RestController
 @RequestMapping("/purchases")

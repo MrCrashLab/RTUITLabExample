@@ -1,18 +1,18 @@
-package ru.MrCrash.RtuItLabExample.Moduls;
+package ru.MrCrash.RtuItLabExample.FirstLevel.Models;
 
 public class Purchase {
     private int idPerson;
     private int idPurchase;
     private String name;
     private double cost;
-    private String purchaseDate;
+    private String date;
 
     public Purchase(int idPerson, int idProduct, String name, double cost, String purchaseDate) {
         this.idPerson = idPerson;
         this.idPurchase = idProduct;
         this.name = name;
         this.cost = cost;
-        this.purchaseDate = purchaseDate;
+        this.date = purchaseDate;
     }
 
     public int getIdPerson() {
@@ -47,12 +47,12 @@ public class Purchase {
         this.cost = cost;
     }
 
-    public String getPurchaseDate() {
-        return purchaseDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
 }

@@ -1,8 +1,8 @@
-package ru.MrCrash.RtuItLabExample.DAO;
+package ru.MrCrash.RtuItLabExample.FirstLevel.DAO;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.MrCrash.RtuItLabExample.Moduls.Purchase;
+import ru.MrCrash.RtuItLabExample.FirstLevel.Models.Purchase;
 
 import javax.annotation.PostConstruct;
 import java.sql.*;
@@ -91,7 +91,7 @@ public class PurchaseDAO {
             statement.setInt(2, uniqueId);
             statement.setString(3, purchase.getName());
             statement.setDouble(4, purchase.getCost());
-            statement.setDate(5, java.sql.Date.valueOf(purchase.getPurchaseDate()));
+            statement.setDate(5, java.sql.Date.valueOf(purchase.getDate()));
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -110,10 +110,9 @@ public class PurchaseDAO {
                                     "id_purchase=?");
             statement.setString(1, purchase.getName());
             statement.setDouble(2, purchase.getCost());
-            statement.setDate(3, java.sql.Date.valueOf(purchase.getPurchaseDate()));
+            statement.setDate(3, java.sql.Date.valueOf(purchase.getDate()));
             statement.setInt(4, idPerson);
             statement.setInt(5, idPurchaseToBeUpdated);
-            System.out.println("hello");
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
