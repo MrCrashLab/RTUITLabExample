@@ -41,8 +41,8 @@ public class PurchaseDAO {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM purchases");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Purchase purchase = new Purchase(resultSet.getInt("id_person"),
-                        resultSet.getInt("id_purchase"),
+                Purchase purchase = new Purchase(resultSet.getInt("idPerson"),
+                        resultSet.getInt("idPurchase"),
                         resultSet.getString("name"),
                         resultSet.getDouble("cost"),
                         String.valueOf(resultSet.getDate("date")));
@@ -58,12 +58,12 @@ public class PurchaseDAO {
         List<Purchase> purchases = new ArrayList<>();
         try {
             PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT * FROM purchases WHERE id_person=?");
+                    connection.prepareStatement("SELECT * FROM purchases WHERE idPerson=?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Purchase purchase = new Purchase(resultSet.getInt("id_person"),
-                        resultSet.getInt("id_purchase"),
+                Purchase purchase = new Purchase(resultSet.getInt("idPerson"),
+                        resultSet.getInt("idPurchase"),
                         resultSet.getString("name"),
                         resultSet.getDouble("cost"),
                         String.valueOf(resultSet.getDate("date")));
@@ -98,7 +98,7 @@ public class PurchaseDAO {
         }
     }
 
-    public void updatePurchase(int idPerson, int idPurchaseToBeUpdated, Purchase purchase) {
+    public void updatePurchase(int idPersonToUpd, int idPurchaseToUpd, Purchase purchase) {
         try {
             PreparedStatement statement =
                     connection.prepareStatement
@@ -106,41 +106,41 @@ public class PurchaseDAO {
                                     "name=?, " +
                                     "cost=?, " +
                                     "date=? " +
-                                    "WHERE id_person=? AND " +
-                                    "id_purchase=?");
+                                    "WHERE idPerson=? AND " +
+                                    "idPurchase=?");
             statement.setString(1, purchase.getName());
             statement.setDouble(2, purchase.getCost());
             statement.setDate(3, java.sql.Date.valueOf(purchase.getDate()));
-            statement.setInt(4, idPerson);
-            statement.setInt(5, idPurchaseToBeUpdated);
+            statement.setInt(4, idPersonToUpd);
+            statement.setInt(5, idPurchaseToUpd);
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void deletePurchase(int idPerson, int idPurchase) {
+    public void deletePurchase(int idPersonToDel, int idPurchaseToDel) {
         try {
             PreparedStatement statement =
                     connection.prepareStatement("DELETE FROM " +
                             "purchases WHERE " +
-                            "id_person=? AND " +
-                            "id_purchase=?");
-            statement.setInt(1, idPerson);
-            statement.setInt(2, idPurchase);
+                            "idPerson=? AND " +
+                            "idPurchase=?");
+            statement.setInt(1, idPersonToDel);
+            statement.setInt(2, idPurchaseToDel);
             statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void deletePerson(int idPerson) {
+    public void deletePerson(int idPersonToDel) {
         try {
             PreparedStatement statement =
                     connection.prepareStatement("DELETE FROM " +
                             "purchases WHERE " +
-                            "id_person=?");
-            statement.setInt(1, idPerson);
+                            "idPerson=?");
+            statement.setInt(1, idPersonToDel);
             statement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
