@@ -11,6 +11,7 @@ public class ShopsController {
     private Gson gson = new Gson();
     private final ShopsDAO shopsDAO;
 
+    @Autowired
     public ShopsController(ShopsDAO shopsDAO) {
         this.shopsDAO = shopsDAO;
     }
