@@ -1,4 +1,4 @@
-package ru.MrCrash.RtuItLabExample.FirstLevel.Models;
+package ru.MrCrash.RtuItLabExample.Models;
 
 public class Purchase {
     private int idPerson;
@@ -6,8 +6,16 @@ public class Purchase {
     private String name;
     private double cost;
     private String date;
+    private String category;
 
-    public Purchase(int idPerson, int idProduct, String name, double cost, String purchaseDate) {
+    public Purchase() {
+    }
+
+    public Purchase(int idPerson,
+                    int idProduct,
+                    String name,
+                    double cost,
+                    String purchaseDate) {
         this.idPerson = idPerson;
         this.idPurchase = idProduct;
         this.name = name;
@@ -55,4 +63,11 @@ public class Purchase {
         this.date = date;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }
