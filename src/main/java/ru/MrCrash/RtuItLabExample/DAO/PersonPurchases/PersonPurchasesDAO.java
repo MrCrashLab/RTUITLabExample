@@ -1,5 +1,6 @@
 package ru.MrCrash.RtuItLabExample.DAO.PersonPurchases;
 
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class PersonPurchasesDAO {
     public List<PersonPurchase> getPurchasesFromId(int id) {
         return jdbcTemplate.query("SELECT * FROM person_purchases WHERE id_person=?", new PersonPurchasesMapper(), id);
     }
-
+    //TODO:Изменить валидацию и сделать инкрементирование уникального ид
     public PersonPurchase createNewPurchase(PersonPurchase purchase) {
         int uniquePurchaseId = purchase.getIdPurchase();
         int uniquePersonId = purchase.getIdParent();
@@ -52,14 +53,15 @@ public class PersonPurchasesDAO {
             uniquePersonId = personIdList.stream().max(Integer::compare).get();
             uniquePersonId++;
         }
-        jdbcTemplate.update("INSERT INTO person_purchases VALUES(?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO person_purchases VALUES(?,?,?,?,?,?,?,?)",
                 uniquePersonId,
                 uniquePurchaseId,
                 purchase.getName(),
                 purchase.getCost(),
                 java.sql.Date.valueOf(purchase.getDate()),
                 purchase.getCategory(),
-                purchase.getIdReceipt());
+                purchase.getIdReceipt(),
+                purchase.getPaymentMethod());
         purchase.setIdPurchase(uniquePurchaseId);
         purchase.setIdParent(uniquePersonId);
         return purchase;
@@ -71,8 +73,9 @@ public class PersonPurchasesDAO {
                         "cost=?, " +
                         "date=?," +
                         "category=?," +
-                        "id_receipt=? " +
-                        "WHERE id_person=? AND " +
+                        "id_receipt=?," +
+                        "payment_method=?" +
+                        " id_person=? AND " +
                         "id_purchase=?",
                 purchase.getName(),
                 purchase.getCost(),
@@ -80,7 +83,8 @@ public class PersonPurchasesDAO {
                 purchase.getIdParent(),
                 purchase.getIdPurchase(),
                 purchase.getCategory(),
-                purchase.getIdReceipt());
+                purchase.getIdReceipt(),
+                purchase.getPaymentMethod());
         return purchase;
     }
 

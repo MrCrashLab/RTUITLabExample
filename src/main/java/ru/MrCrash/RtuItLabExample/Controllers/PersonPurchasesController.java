@@ -9,11 +9,11 @@ import ru.MrCrash.RtuItLabExample.Models.Purchase.PersonPurchase;
 
 @RestController
 @RequestMapping("/purchases")
-public class PurchasesController {
+public class PersonPurchasesController {
     private final Gson gson = new Gson();
     private final PersonPurchasesDAO personPurchasesDAO;
     @Autowired
-    public PurchasesController(PersonPurchasesDAO personPurchasesDAO) {
+    public PersonPurchasesController(PersonPurchasesDAO personPurchasesDAO) {
         this.personPurchasesDAO = personPurchasesDAO;
     }
 

@@ -2,6 +2,7 @@ package ru.MrCrash.RtuItLabExample.DAO.Shops;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.MrCrash.RtuItLabExample.Models.Purchase.PersonPurchase;
 import ru.MrCrash.RtuItLabExample.Models.Shop;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ShopsDAO {
     public ShopsDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    //TODO:Изменить валидацию и сделать инкрементирование уникального ид
     public Shop createNewShop(Shop shop){
         jdbcTemplate.update("INSERT INTO shops VALUES(?,?,?,?)",
                 shop.getIdShop(),
@@ -34,7 +35,6 @@ public class ShopsDAO {
                 .findAny()
                 .orElse(null);
     }
-
     public Shop updateShopInfo(Shop shop){
         jdbcTemplate.update("UPDATE shops SET " +
                         "name=?, " +

@@ -16,6 +16,7 @@ public class PersonPurchasesMapper implements RowMapper<PersonPurchase> {
                 resultSet.getDouble("cost"),
                 String.valueOf(resultSet.getDate("date")),
                 resultSet.getString("category"),
-                resultSet.getInt("id_receipt"));
+                resultSet.getInt("id_receipt"),
+                resultSet.getString("payment_method"));
     }
 }
