@@ -18,14 +18,14 @@ public class PurchasesDAO {
     }
 
     public List<Purchase> getAllPurchases() {
-        return jdbcTemplate.query("SELECT * FROM purchases", new PurchasesMapper());
+        return jdbcTemplate.query("SELECT * FROM person_purchases", new PurchasesMapper());
     }
 
     public List<Purchase> getPurchasesFromId(int id) {
-        return jdbcTemplate.query("SELECT * FROM purchases WHERE id_person=?", new PurchasesMapper(), id);
+        return jdbcTemplate.query("SELECT * FROM person_purchases WHERE id_person=?", new PurchasesMapper(), id);
     }
 
-    public void createNewPurchase(Purchase purchase) {
+    public Purchase createNewPurchase(Purchase purchase) {
         int uniquePurchaseId = purchase.getIdPurchase();
         int uniquePersonId = purchase.getIdPerson();
         List<Integer> purchaseIdList = getPurchasesFromId(purchase.getIdPerson())
@@ -52,41 +52,56 @@ public class PurchasesDAO {
             uniquePersonId = personIdList.stream().max(Integer::compare).get();
             uniquePersonId++;
         }
-        jdbcTemplate.update("INSERT INTO purchases VALUES(?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO person_purchases VALUES(?,?,?,?,?,?)",
                 uniquePersonId,
                 uniquePurchaseId,
                 purchase.getName(),
                 purchase.getCost(),
-                java.sql.Date.valueOf(purchase.getDate()));
+                java.sql.Date.valueOf(purchase.getDate()),
+                purchase.getCategory());
+        purchase.setIdPurchase(uniquePurchaseId);
+        purchase.setIdPerson(uniquePersonId);
+        return purchase;
     }
 
-    public void updatePurchase(Purchase purchase) {
-        jdbcTemplate.update("UPDATE purchases SET " +
+    public Purchase updatePurchase(Purchase purchase) {
+        jdbcTemplate.update("UPDATE person_purchases SET " +
                         "name=?, " +
                         "cost=?, " +
-                        "date=? " +
+                        "date=?," +
+                        "category=? " +
                         "WHERE id_person=? AND " +
                         "id_purchase=?",
                 purchase.getName(),
                 purchase.getCost(),
                 java.sql.Date.valueOf(purchase.getDate()),
                 purchase.getIdPerson(),
-                purchase.getIdPurchase());
+                purchase.getIdPurchase(),
+                purchase.getCategory());
+        return purchase;
     }
 
-    public void deletePurchase(int idPersonToDel, int idPurchaseToDel) {
+    public Purchase deletePurchase(int idPersonToDel, int idPurchaseToDel) {
+        List<Purchase> purchases = getPurchasesFromId(idPersonToDel);
         jdbcTemplate.update("DELETE FROM " +
-                        "purchases WHERE " +
+                        "person_purchases WHERE " +
                         "id_person=? AND " +
                         "id_purchase=?",
                 idPersonToDel,
                 idPurchaseToDel);
+
+        return purchases.stream()
+                .filter(purchase -> purchase.getIdPurchase()==idPurchaseToDel)
+                .findAny()
+                .orElse(null);
     }
 
-    public void deletePerson(int idPerson) {
+    public List<Purchase> deletePerson(int idPerson) {
+        List<Purchase> purchases = getPurchasesFromId(idPerson);
         jdbcTemplate.update("DELETE FROM " +
-                        "purchases WHERE " +
+                        "person_purchases WHERE " +
                         "id_person=?",
                 idPerson);
+        return purchases;
     }
 }

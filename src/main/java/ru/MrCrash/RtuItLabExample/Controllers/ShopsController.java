@@ -3,7 +3,8 @@ package ru.MrCrash.RtuItLabExample.Controllers;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.MrCrash.RtuItLabExample.DAO.ShopsDAO;
+import ru.MrCrash.RtuItLabExample.DAO.Shops.ShopsDAO;
+import ru.MrCrash.RtuItLabExample.Models.Shop;
 
 @RestController
 @RequestMapping("/shops")
@@ -17,45 +18,28 @@ public class ShopsController {
     }
 
     @PostMapping()
-    public void createNewShop(){
-
+    public String createNewShop(@RequestBody String json){
+        return gson.toJson(shopsDAO.createNewShop(gson.fromJson(json, Shop.class)));
     }
-    @PostMapping
-    public void addNewPurchase(){
 
-    }
-    @PostMapping
-    public void buyPurchaseByPerson(){
-
-    }
     @GetMapping
     public String readAllShops(){
-        return null;
+        return gson.toJson(shopsDAO.readAllShop());
     }
-    @GetMapping
-    public String readShopsFromId(){
-        return null;
+    @GetMapping("/{idShop}")
+    public String readShopsFromId(@PathVariable int idShop){
+        return gson.toJson(shopsDAO.readShopFromId(idShop));
     }
-    @GetMapping
-    public String readShopFromPurchaseCategory(){
-        return null;
+    @PatchMapping()
+    public String updateShopInfo(@RequestBody String json){
+        return gson.toJson(shopsDAO.updateShopInfo(gson.fromJson(json,Shop.class)));
     }
-    @PatchMapping
-    public void updateShopInfo(){
 
+    @DeleteMapping("/{idShop}")
+    public String deleteShop(@PathVariable int idShop){
+        return gson.toJson(shopsDAO.deleteShop(idShop));
     }
-    @PatchMapping
-    public void updatePurchaseInfo(){
 
-    }
-    @DeleteMapping
-    public void deleteShop(){
-
-    }
-    @DeleteMapping
-    public void deletePurchase(){
-
-    }
 
 
 }

@@ -7,7 +7,6 @@ public class Shop {
     private String name;
     private String address;
     private String numberPhone;
-    private List<Purchase> purchases;
 
     public Shop() {
     }
@@ -15,13 +14,11 @@ public class Shop {
     public Shop(int idShop,
                 String name,
                 String address,
-                String numberPhone,
-                List<Purchase> purchases) {
+                String numberPhone) {
         this.idShop = idShop;
         this.name = name;
         this.address = address;
         this.numberPhone = numberPhone;
-        this.purchases = purchases;
     }
 
     public int getIdShop() {
@@ -54,13 +51,5 @@ public class Shop {
 
     public void setNumberPhone(String numberPhone) {
         this.numberPhone = numberPhone;
-    }
-
-    public List<Purchase> getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(List<Purchase> purchases) {
-        this.purchases = purchases;
     }
 }
