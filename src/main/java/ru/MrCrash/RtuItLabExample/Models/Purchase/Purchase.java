@@ -1,34 +1,28 @@
-package ru.MrCrash.RtuItLabExample.Models;
+package ru.MrCrash.RtuItLabExample.Models.Purchase;
 
-public class Purchase {
-    private int idPerson;
+public abstract class Purchase {
+    private int idParent;
     private int idPurchase;
     private String name;
     private double cost;
     private String date;
     private String category;
 
-    public Purchase() {
-    }
-
-    public Purchase(int idPerson,
-                    int idProduct,
-                    String name,
-                    double cost,
-                    String purchaseDate) {
-        this.idPerson = idPerson;
-        this.idPurchase = idProduct;
+    public Purchase(int idParent, int idPurchase, String name, double cost, String date, String category) {
+        this.idParent = idParent;
+        this.idPurchase = idPurchase;
         this.name = name;
         this.cost = cost;
-        this.date = purchaseDate;
+        this.date = date;
+        this.category = category;
     }
 
-    public int getIdPerson() {
-        return idPerson;
+    public int getIdParent() {
+        return idParent;
     }
 
-    public void setIdPerson(int idPerson) {
-        this.idPerson = idPerson;
+    public void setIdParent(int idParent) {
+        this.idParent = idParent;
     }
 
     public int getIdPurchase() {

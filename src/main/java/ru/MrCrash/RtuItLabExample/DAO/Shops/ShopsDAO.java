@@ -2,8 +2,6 @@ package ru.MrCrash.RtuItLabExample.DAO.Shops;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.MrCrash.RtuItLabExample.DAO.Purchases.PurchasesMapper;
-import ru.MrCrash.RtuItLabExample.Models.Purchase;
 import ru.MrCrash.RtuItLabExample.Models.Shop;
 
 import java.util.List;

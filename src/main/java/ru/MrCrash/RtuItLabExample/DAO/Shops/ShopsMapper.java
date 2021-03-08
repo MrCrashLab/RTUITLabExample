@@ -14,8 +14,8 @@ public class ShopsMapper implements RowMapper<Shop> {
         Shop shop = new Shop(
                 resultSet.getInt("id_shop"),
                 resultSet.getString("name"),
-                resultSet.getString("name"),
-                resultSet.getString("name"));
+                resultSet.getString("address"),
+                resultSet.getString("number_phone"));
         return shop;
     }
 }
