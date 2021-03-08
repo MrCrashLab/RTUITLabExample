@@ -1,7 +1,5 @@
 package ru.MrCrash.RtuItLabExample.Models;
 
-import java.util.List;
-
 public class Shop {
     private int idShop;
     private String name;

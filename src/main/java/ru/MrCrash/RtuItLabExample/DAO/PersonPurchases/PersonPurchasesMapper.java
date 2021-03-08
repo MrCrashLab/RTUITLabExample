@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class PersonPurchasesMapper implements RowMapper<PersonPurchase> {
     @Override
     public PersonPurchase mapRow(ResultSet resultSet, int i) throws SQLException {
-        PersonPurchase purchase = new PersonPurchase(
+        return new PersonPurchase(
                 resultSet.getInt("id_person"),
                 resultSet.getInt("id_purchase"),
                 resultSet.getString("name"),
@@ -17,6 +17,5 @@ public class PersonPurchasesMapper implements RowMapper<PersonPurchase> {
                 String.valueOf(resultSet.getDate("date")),
                 resultSet.getString("category"),
                 resultSet.getInt("id_receipt"));
-        return purchase;
     }
 }
