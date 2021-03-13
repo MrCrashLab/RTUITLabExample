@@ -1,7 +1,7 @@
 package ru.MrCrash.RtuItLabExample.Shops.Models;
 
 public class Shop {
-    private int idShop;
+    private int idShop = 0;
     private String name;
     private String address;
     private String numberPhone;

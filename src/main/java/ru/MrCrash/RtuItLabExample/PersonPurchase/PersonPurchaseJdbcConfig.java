@@ -18,7 +18,7 @@ public class PersonPurchaseJdbcConfig {
     private String USERNAME;
 
     @Bean
-    public DataSource mySqlDataSource(){
+    public DataSource mySqlDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl(URL);
@@ -28,7 +28,7 @@ public class PersonPurchaseJdbcConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(){
+    public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(mySqlDataSource());
     }
 }

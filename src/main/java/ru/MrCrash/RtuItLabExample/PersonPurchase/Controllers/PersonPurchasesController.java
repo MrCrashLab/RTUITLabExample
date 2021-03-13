@@ -12,6 +12,7 @@ import ru.MrCrash.RtuItLabExample.PersonPurchase.Models.PersonPurchase;
 public class PersonPurchasesController {
     private final Gson gson = new Gson();
     private final PersonPurchasesDAO personPurchasesDAO;
+
     @Autowired
     public PersonPurchasesController(PersonPurchasesDAO personPurchasesDAO) {
         this.personPurchasesDAO = personPurchasesDAO;
@@ -22,32 +23,44 @@ public class PersonPurchasesController {
     public String createNewPurchase(@RequestBody String json) {
         return gson.toJson(personPurchasesDAO.createNewPurchase(gson.fromJson(json, PersonPurchase.class)));
     }
+
     //Прочтение всех покупок, в независимости от пользователя
     @GetMapping()
     public String readAllPurchases() {
         return gson.toJson(personPurchasesDAO.getAllPurchases());
     }
+
     //Прочтение покупок пользователя
     @GetMapping("/{idPerson}")
-    public String readPurchasesFromId(@PathVariable int idPerson) {
-        return gson.toJson(personPurchasesDAO.getPurchasesFromId(idPerson));
+    public String readPurchasesFromPersonId(@PathVariable int idPerson) {
+        return gson.toJson(personPurchasesDAO.getPurchasesFromPersonId(idPerson));
     }
+
+    //Прочтение определенной покупки
+    @GetMapping("/{idPerson}/{idPurchase}")
+    public String readPurchasesFromId(@PathVariable int idPerson,
+                                      @PathVariable int idPurchase) {
+        return gson.toJson(personPurchasesDAO.getPurchaseFromId(idPerson, idPurchase));
+    }
+
     //Обновление данных о покупке
     @PatchMapping("/{idPerson}/{idPurchase}")
     public String updatePurchase(@PathVariable int idPerson,
                                  @PathVariable int idPurchase,
                                  @RequestBody String json) {
-        return gson.toJson(personPurchasesDAO.updatePurchase(idPerson, idPurchase,gson.fromJson(json, PersonPurchase.class)));
+        return gson.toJson(personPurchasesDAO.updatePurchase(idPerson, idPurchase, gson.fromJson(json, PersonPurchase.class)));
     }
+
     //Удаление определенной покупки
     @DeleteMapping("/{idPerson}/{idPurchase}")
     public String deletePurchase(@PathVariable int idPerson,
-                               @PathVariable int idPurchase) {
+                                 @PathVariable int idPurchase) {
         return gson.toJson(personPurchasesDAO.deletePurchase(idPerson, idPurchase));
     }
+
     //Удаление всех покупок пользователя
     @DeleteMapping("/{idPerson}")
     public String deletePerson(@PathVariable int idPerson) {
-       return gson.toJson(personPurchasesDAO.deletePerson(idPerson));
+        return gson.toJson(personPurchasesDAO.deletePerson(idPerson));
     }
 }

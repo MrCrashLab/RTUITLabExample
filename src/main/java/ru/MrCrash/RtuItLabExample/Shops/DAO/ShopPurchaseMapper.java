@@ -13,7 +13,7 @@ public class ShopPurchaseMapper implements RowMapper<ShopPurchase> {
     public ShopPurchase mapRow(ResultSet resultSet, int i) throws SQLException {
         return new ShopPurchase(
                 resultSet.getInt("id_shop"),
-                resultSet.getInt("id_purchases"),
+                resultSet.getInt("id_purchase"),
                 resultSet.getString("name"),
                 resultSet.getDouble("cost"),
                 String.valueOf(resultSet.getDate("date")),

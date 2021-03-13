@@ -6,7 +6,7 @@ public class PersonPurchase extends Purchase {
     private int idReceipt = 0;
     private String paymentMethod;
 
-    public PersonPurchase(int idPerson,
+    public PersonPurchase(int idParent,
                           int idProduct,
                           String name,
                           double cost,
@@ -15,7 +15,7 @@ public class PersonPurchase extends Purchase {
                           int idReceipt,
                           String paymentMethod,
                           int amount) {
-        super(idPerson, idProduct, name, cost, date, category, amount);
+        super(idParent, idProduct, name, cost, date, category, amount);
         this.idReceipt = idReceipt;
         this.paymentMethod = paymentMethod;
     }
