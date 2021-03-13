@@ -1,4 +1,6 @@
-package ru.MrCrash.RtuItLabExample.Models.Purchase;
+package ru.MrCrash.RtuItLabExample.Shops.Models;
+
+import ru.MrCrash.RtuItLabExample.Purchase;
 
 public class ShopPurchase extends Purchase {
     private String description;
@@ -9,8 +11,9 @@ public class ShopPurchase extends Purchase {
                         double cost,
                         String date,
                         String category,
-                        String description) {
-        super(idParent, idPurchase, name, cost, date, category);
+                        String description,
+                        int amount) {
+        super(idParent, idPurchase, name, cost, date, category, amount);
         this.description = description;
     }
 

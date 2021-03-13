@@ -1,4 +1,4 @@
-package ru.MrCrash.RtuItLabExample;
+package ru.MrCrash.RtuItLabExample.PersonPurchase;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,8 +9,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-public class SpringJdbcConfig {
-    @Value("${spring.datasource.url}")
+public class PersonPurchaseJdbcConfig {
+    @Value("${spring.datasource.urlPersonPurchase}")
     private String URL;
     @Value("${spring.datasource.password}")
     private String PASSWORD;

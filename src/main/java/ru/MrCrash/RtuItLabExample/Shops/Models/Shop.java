@@ -1,4 +1,4 @@
-package ru.MrCrash.RtuItLabExample.Models;
+package ru.MrCrash.RtuItLabExample.Shops.Models;
 
 public class Shop {
     private int idShop;

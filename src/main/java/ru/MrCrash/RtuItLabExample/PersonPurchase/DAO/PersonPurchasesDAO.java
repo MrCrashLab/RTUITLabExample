@@ -1,10 +1,9 @@
-package ru.MrCrash.RtuItLabExample.DAO.PersonPurchases;
+package ru.MrCrash.RtuItLabExample.PersonPurchase.DAO;
 
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.MrCrash.RtuItLabExample.Models.Purchase.PersonPurchase;
+import ru.MrCrash.RtuItLabExample.PersonPurchase.Models.PersonPurchase;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,38 +52,43 @@ public class PersonPurchasesDAO {
             uniquePersonId = personIdList.stream().max(Integer::compare).get();
             uniquePersonId++;
         }
-        jdbcTemplate.update("INSERT INTO person_purchases VALUES(?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO person_purchases VALUES(?,?,?,?,?,?,?,?,?)",
                 uniquePersonId,
                 uniquePurchaseId,
+                purchase.getIdReceipt(),
                 purchase.getName(),
                 purchase.getCost(),
                 java.sql.Date.valueOf(purchase.getDate()),
                 purchase.getCategory(),
-                purchase.getIdReceipt(),
-                purchase.getPaymentMethod());
+                purchase.getPaymentMethod(),
+                purchase.getAmount());
         purchase.setIdPurchase(uniquePurchaseId);
         purchase.setIdParent(uniquePersonId);
         return purchase;
     }
 
-    public PersonPurchase updatePurchase(PersonPurchase purchase) {
+    public PersonPurchase updatePurchase(int idPerson, int idPurchase, PersonPurchase purchase) {
         jdbcTemplate.update("UPDATE person_purchases SET " +
                         "name=?, " +
                         "cost=?, " +
                         "date=?," +
                         "category=?," +
                         "id_receipt=?," +
-                        "payment_method=?" +
+                        "payment_method=?," +
+                        "amount=? Where" +
                         " id_person=? AND " +
                         "id_purchase=?",
                 purchase.getName(),
                 purchase.getCost(),
                 java.sql.Date.valueOf(purchase.getDate()),
-                purchase.getIdParent(),
-                purchase.getIdPurchase(),
                 purchase.getCategory(),
                 purchase.getIdReceipt(),
-                purchase.getPaymentMethod());
+                purchase.getPaymentMethod(),
+                purchase.getAmount(),
+                idPerson,
+                idPurchase);
+        purchase.setIdParent(idPerson);
+        purchase.setIdPurchase(idPurchase);
         return purchase;
     }
 

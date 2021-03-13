@@ -1,7 +1,7 @@
-package ru.MrCrash.RtuItLabExample.DAO.PersonPurchases;
+package ru.MrCrash.RtuItLabExample.PersonPurchase.DAO;
 
 import org.springframework.jdbc.core.RowMapper;
-import ru.MrCrash.RtuItLabExample.Models.Purchase.PersonPurchase;
+import ru.MrCrash.RtuItLabExample.PersonPurchase.Models.PersonPurchase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +17,7 @@ public class PersonPurchasesMapper implements RowMapper<PersonPurchase> {
                 String.valueOf(resultSet.getDate("date")),
                 resultSet.getString("category"),
                 resultSet.getInt("id_receipt"),
-                resultSet.getString("payment_method"));
+                resultSet.getString("payment_method"),
+                resultSet.getInt("amount"));
     }
 }

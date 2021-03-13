@@ -1,7 +1,9 @@
-package ru.MrCrash.RtuItLabExample.Models.Purchase;
+package ru.MrCrash.RtuItLabExample.PersonPurchase.Models;
+
+import ru.MrCrash.RtuItLabExample.Purchase;
 
 public class PersonPurchase extends Purchase {
-    private int idReceipt;
+    private int idReceipt = 0;
     private String paymentMethod;
 
     public PersonPurchase(int idPerson,
@@ -11,8 +13,9 @@ public class PersonPurchase extends Purchase {
                           String date,
                           String category,
                           int idReceipt,
-                          String paymentMethod) {
-        super(idPerson, idProduct, name, cost, date, category);
+                          String paymentMethod,
+                          int amount) {
+        super(idPerson, idProduct, name, cost, date, category, amount);
         this.idReceipt = idReceipt;
         this.paymentMethod = paymentMethod;
     }
