@@ -19,7 +19,7 @@ public class Interlayer {
     public String buyPurchase(@PathVariable String idPerson,
                               @PathVariable String idShop,
                               @RequestBody int[] purchases) {
-
+        return null;
     }
 
     @GetMapping("/shops/{idShop}")
