@@ -16,20 +16,23 @@ public class PersonPurchasesDAO {
     public PersonPurchasesDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     //Получение всех покупок
     public List<PersonPurchase> getAllPurchases() {
         return jdbcTemplate.query("SELECT * FROM person_purchases", new PersonPurchasesMapper());
     }
+
     //Получение покупок по id человека
     public List<PersonPurchase> getPurchasesFromPersonId(int id) {
         return jdbcTemplate.query("SELECT * FROM person_purchases WHERE id_person=?", new PersonPurchasesMapper(), id);
     }
+
     //Получение определенной покупки по id
     public PersonPurchase getPurchaseFromId(int idPerson, int idPurchase) {
         List<PersonPurchase> personPurchases = jdbcTemplate.query(
                 "SELECT * FROM person_purchases " +
-                "WHERE id_person=? " +
-                "AND id_purchase=?",
+                        "WHERE id_person=? " +
+                        "AND id_purchase=?",
                 new PersonPurchasesMapper(),
                 idPerson,
                 idPurchase);
@@ -38,8 +41,18 @@ public class PersonPurchasesDAO {
                 .findAny()
                 .orElse(null);
     }
+
+    //Получение чека
+    public List<PersonPurchase> getReceiptFromId(int idPerson, int idReceipt) {
+        return jdbcTemplate.query("SELECT * FROM person_purchases WHERE " +
+                        "id_person=? AND " +
+                        "id_receipt=?",
+                new PersonPurchasesMapper(),
+                idPerson,
+                idReceipt);
+    }
+
     //Создание новой покупки
-    //TODO:Изменить валидацию и сделать инкрементирование уникального ид
     public PersonPurchase createNewPurchase(PersonPurchase purchase) {
         int uniquePurchaseId = purchase.getIdPurchase();
         int uniquePersonId = purchase.getIdParent();
@@ -51,18 +64,16 @@ public class PersonPurchasesDAO {
                 .stream()
                 .map(purchase1 -> purchase1.getIdParent())
                 .collect(Collectors.toList());
-        if (uniquePurchaseId <= 0 && purchaseIdList.size()==0) {
+        if (uniquePurchaseId <= 0 && purchaseIdList.size() == 0) {
             uniquePurchaseId = 1;
-        }
-        else if (purchaseIdList.indexOf(uniquePurchaseId) != -1||uniquePurchaseId <= 0) {
+        } else if (purchaseIdList.indexOf(uniquePurchaseId) != -1 || uniquePurchaseId <= 0) {
             uniquePurchaseId = purchaseIdList.stream().max(Integer::compare).get();
             uniquePurchaseId++;
         }
 
-        if(uniquePersonId <= 0 && personIdList.size()==0){
-            uniquePersonId=1;
-        }
-        else if (uniquePersonId <= 0) {
+        if (uniquePersonId <= 0 && personIdList.size() == 0) {
+            uniquePersonId = 1;
+        } else if (uniquePersonId <= 0) {
             uniquePersonId = personIdList.stream().max(Integer::compare).get();
             uniquePersonId++;
         }
@@ -80,6 +91,7 @@ public class PersonPurchasesDAO {
         purchase.setIdParent(uniquePersonId);
         return purchase;
     }
+
     //Обновление информации о покупке
     public PersonPurchase updatePurchase(int idPerson, int idPurchase, PersonPurchase purchase) {
         jdbcTemplate.update("UPDATE person_purchases SET " +
@@ -105,6 +117,7 @@ public class PersonPurchasesDAO {
         purchase.setIdPurchase(idPurchase);
         return purchase;
     }
+
     //Удаление покупки
     public PersonPurchase deletePurchase(int idPersonToDel, int idPurchaseToDel) {
         List<PersonPurchase> purchases = getPurchasesFromPersonId(idPersonToDel);
@@ -116,10 +129,11 @@ public class PersonPurchasesDAO {
                 idPurchaseToDel);
 
         return purchases.stream()
-                .filter(purchase -> purchase.getIdPurchase()==idPurchaseToDel)
+                .filter(purchase -> purchase.getIdPurchase() == idPurchaseToDel)
                 .findAny()
                 .orElse(null);
     }
+
     //Удаление человека со всеми покупками
     public List<PersonPurchase> deletePerson(int idPerson) {
         List<PersonPurchase> purchases = getPurchasesFromPersonId(idPerson);
@@ -129,4 +143,6 @@ public class PersonPurchasesDAO {
                 idPerson);
         return purchases;
     }
+
+
 }

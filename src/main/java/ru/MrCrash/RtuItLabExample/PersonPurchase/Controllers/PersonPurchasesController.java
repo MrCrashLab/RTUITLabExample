@@ -43,6 +43,12 @@ public class PersonPurchasesController {
         return gson.toJson(personPurchasesDAO.getPurchaseFromId(idPerson, idPurchase));
     }
 
+    @GetMapping("/receipt/{idPerson}/{idReceipt}")
+    public String readReceiptFromId(@PathVariable int idPerson,
+                                    @PathVariable int idReceipt){
+        return gson.toJson(personPurchasesDAO.getReceiptFromId(idPerson,idReceipt));
+    }
+
     //Обновление данных о покупке
     @PatchMapping("/{idPerson}/{idPurchase}")
     public String updatePurchase(@PathVariable int idPerson,
